@@ -1,110 +1,32 @@
-/* =========================================================
-   SHAHEEN AI
-   GEMINI SERVERLESS API
-   api/chat.js
-========================================================= */
-
-
 export default async function handler(req, res) {
-
-    /*
-       السماح فقط بطلبات POST
-    */
-
     if (req.method !== "POST") {
-
         return res.status(405).json({
-
-            error:
-                "Method not allowed"
-
+            error: "Method not allowed"
         });
-
     }
 
-
     try {
+        const { message, conversation = [] } = req.body || {};
 
-        /*
-           قراءة البيانات القادمة من الموقع
-        */
-
-        const {
-
-            message,
-
-            conversation = []
-
-        } = req.body || {};
-
-
-        /*
-           التحقق من الرسالة
-        */
-
-        if (
-            !message ||
-            typeof message !== "string"
-        ) {
-
+        if (!message || typeof message !== "string") {
             return res.status(400).json({
-
-                error:
-                    "Message is required"
-
+                error: "Message is required"
             });
-
         }
 
-
-        /*
-           API KEY
-
-           لا تضع المفتاح هنا مباشرة.
-
-           سيتم قراءته من:
-           GEMINI_API_KEY
-        */
-
-        const apiKey =
-            process.env.GEMINI_API_KEY;
-
+        const apiKey = process.env.GEMINI_API_KEY;
 
         if (!apiKey) {
-
-            console.error(
-                "GEMINI_API_KEY is missing"
-            );
-
+            console.error("GEMINI_API_KEY is missing");
 
             return res.status(500).json({
-
-                error:
-                    "Gemini API key is not configured."
-
+                error: "GEMINI_API_KEY is not configured in Vercel."
             });
-
         }
 
-
-        /*
-           النموذج.
-
-           اجعله في متغير مستقل حتى نستطيع
-           تغييره بسهولة لاحقًا.
-        */
-
-        const model =
-            process.env.GEMINI_MODEL ||
-            "gemini-2.5-flash";
-
-
-        /*
-           تعليمات شخصية Shaheen AI
-        */
+        const model = "gemini-2.5-flash";
 
         const systemInstruction = `
-
 أنت Shaheen AI، مساعد ذكاء اصطناعي حديث واحترافي.
 
 اسمك Shaheen AI.
@@ -126,231 +48,119 @@ export default async function handler(req, res) {
 اجعل إجاباتك مفيدة ومباشرة.
 `;
 
-
-        /*
-           تحويل المحادثة إلى صيغة Gemini.
-        */
-
         const contents = [];
 
-
-        /*
-           نضيف المحادثة السابقة
-        */
-
-        if (
-            Array.isArray(conversation)
-        ) {
-
-            for (
-                const item of conversation
-            ) {
-
-                if (
-                    !item ||
-                    !item.content
-                ) {
-
-                    continue;
-
-                }
-
-
-                /*
-                   Gemini يستخدم:
-                   user
-                   model
-                */
-
-                const role =
-                    item.role === "ai"
-                        ? "model"
-                        : "user";
-
+        if (Array.isArray(conversation)) {
+            for (const item of conversation) {
+                if (!item || !item.content) continue;
 
                 contents.push({
-
-                    role: role,
-
+                    role: item.role === "ai" ? "model" : "user",
                     parts: [
-
                         {
-                            text:
-                                String(
-                                    item.content
-                                )
+                            text: String(item.content)
                         }
-
                     ]
-
                 });
-
             }
-
         }
 
-
-        /*
-           نضيف الرسالة الحالية.
-        */
-
         contents.push({
-
             role: "user",
-
             parts: [
-
                 {
-                    text:
-                        message
+                    text: message
                 }
-
             ]
-
         });
 
+        const url =
+            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
-        /*
-           استدعاء Gemini REST API
-        */
+        console.log("Calling Gemini model:", model);
 
-        const geminiResponse =
-            await fetch(
+        const geminiResponse = await fetch(url, {
+            method: "POST",
 
-                `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`,
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-                {
-
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body: JSON.stringify({
-
-                        systemInstruction: {
-
-                            parts: [
-
-                                {
-                                    text:
-                                        systemInstruction
-                                }
-
-                            ]
-
-                        },
-
-                        contents: contents,
-
-                        generationConfig: {
-
-                            maxOutputTokens:
-                                4096
-
+            body: JSON.stringify({
+                systemInstruction: {
+                    parts: [
+                        {
+                            text: systemInstruction
                         }
+                    ]
+                },
 
-                    })
+                contents,
 
+                generationConfig: {
+                    maxOutputTokens: 4096
                 }
+            })
+        });
 
-            );
+        const responseText = await geminiResponse.text();
 
+        let geminiData;
 
-        /*
-           قراءة رد Gemini
-        */
-
-        const geminiData =
-            await geminiResponse.json();
-
-
-        /*
-           معالجة أخطاء Gemini
-        */
+        try {
+            geminiData = JSON.parse(responseText);
+        } catch {
+            geminiData = {
+                raw: responseText
+            };
+        }
 
         if (!geminiResponse.ok) {
-
             console.error(
-                "Gemini API Error:",
+                "Gemini HTTP Error:",
+                geminiResponse.status,
                 geminiData
             );
 
-
-            return res.status(
-                geminiResponse.status
-            ).json({
-
+            return res.status(500).json({
                 error:
                     geminiData?.error?.message ||
-                    "Gemini API request failed."
-
+                    `Gemini API returned HTTP ${geminiResponse.status}`
             });
-
         }
 
-
-        /*
-           استخراج النص
-        */
-
-        const reply =
-            geminiData
-                ?.candidates?.[0]
-                ?.content?.parts
-                ?.map(part => part.text || "")
-                .join("")
-                .trim();
-
-
-        /*
-           التأكد من وجود رد
-        */
+        const reply = geminiData
+            ?.candidates?.[0]
+            ?.content?.parts
+            ?.map(part => part.text || "")
+            .join("")
+            .trim();
 
         if (!reply) {
+            console.error(
+                "Gemini empty response:",
+                geminiData
+            );
 
             return res.status(502).json({
-
-                error:
-                    "Gemini returned an empty response."
-
+                error: "Gemini returned an empty response."
             });
-
         }
 
-
-        /*
-           إرسال الرد إلى الواجهة
-        */
-
         return res.status(200).json({
-
-            reply: reply,
-
-            model: model
-
+            reply,
+            model
         });
 
-
     } catch (error) {
-
         console.error(
             "Shaheen Server Error:",
             error
         );
 
-
         return res.status(500).json({
-
-            error:
+            error: error?.message ||
                 "حدث خطأ داخلي في Shaheen AI."
-
         });
-
     }
-
 }
