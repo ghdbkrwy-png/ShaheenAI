@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <meta
+        name="description"
+        content="Shaheen AI — مساعدك الذكي بتجربة مستقبلية مستوحاة من الشاهين."
+    >
+
+    <meta name="theme-color" content="#05070d">
+
+    <title>Shaheen AI</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================================
+         BACKGROUND
+    ========================================== -->
+
+    <div class="background">
+
+        <div class="ambient ambient-1"></div>
+        <div class="ambient ambient-2"></div>
+        <div class="ambient ambient-3"></div>
+
+        <div class="grid-overlay"></div>
+
+        <div class="noise"></div>
+
+    </div>
+
+
+    <!-- =========================================
+         APP
+    ========================================== -->
+
+    <main id="app">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <aside id="sidebar" class="sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="brand">
+
+                    <div class="brand-mark">
+                        <span class="eye-glow"></span>
+                    </div>
+
+                    <div class="brand-text">
+
+                        <strong>SHAHEEN</strong>
+
+                        <span>AI INTELLIGENCE</span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="closeSidebar"
+                    class="icon-button mobile-only"
+                    aria-label="إغلاق القائمة"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <button
+                id="newChatButton"
+                class="new-chat-button"
+            >
+
+                <span class="new-chat-icon">+</span>
+
+                <span>محادثة جديدة</span>
+
+            </button>
+
+
+            <div class="sidebar-section">
+
+                <div class="section-title">
+
+                    <span>المحادثات</span>
+
+                    <span class="section-line"></span>
+
+                </div>
+
+
+                <div id="chatHistory" class="chat-history">
+
+                    <!-- سيتم إنشاء المحادثات هنا بواسطة JavaScript -->
+
+                </div>
+
+            </div>
+
+
+            <div class="sidebar-bottom">
+
+                <button class="sidebar-item" id="settingsButton">
+
+                    <span class="sidebar-item-icon">⚙</span>
+
+                    <span>الإعدادات</span>
+
+                </button>
+
+
+                <div class="model-status">
+
+                    <span class="status-dot"></span>
+
+                    <div>
+
+                        <strong>SHAHEEN ENGINE</strong>
+
+                        <small>ONLINE</small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =====================================
+             MAIN CONTENT
+        ====================================== -->
+
+        <section class="main">
+
+
+            <!-- HEADER -->
+
+            <header class="topbar">
+
+                <button
+                    id="openSidebar"
+                    class="icon-button mobile-only"
+                    aria-label="فتح القائمة"
+                >
+                    ☰
+                </button>
+
+
+                <div class="topbar-brand">
+
+                    <div class="mini-shaheen">
+
+                        <span></span>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Shaheen AI</strong>
+
+                        <small>ذكاء يحلّق أبعد</small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="topbar-actions">
+
+                    <button
+                        id="clearChat"
+                        class="top-action"
+                        title="مسح المحادثة"
+                    >
+                        ⌫
+                    </button>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- =================================
+                 HERO
+            ================================== -->
+
+            <section id="hero" class="hero">
+
+                <div class="hero-shaheen">
+
+                    <div class="wing wing-left"></div>
+
+                    <div class="falcon-head">
+
+                        <div class="falcon-eye">
+                            <span></span>
+                        </div>
+
+                        <div class="falcon-beak"></div>
+
+                    </div>
+
+                    <div class="wing wing-right"></div>
+
+                </div>
+
+
+                <div class="hero-content">
+
+                    <div class="eyebrow">
+
+                        <span class="live-dot"></span>
+
+                        SHAHEEN INTELLIGENCE
+
+                    </div>
+
+
+                    <h1>
+
+                        <span>أهلاً بك في</span>
+
+                        <strong>Shaheen AI</strong>
+
+                    </h1>
+
+
+                    <p>
+
+                        ذكاء اصطناعي سريع، أنيق، وذكي.
+                        <br>
+                        اسأل، اكتب، حلّل، وابتكر بلا حدود.
+
+                    </p>
+
+                </div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="quick-actions">
+
+                    <button
+                        class="quick-card"
+                        data-prompt="اكتب لي فكرة مشروع مبتكرة يمكن تنفيذها باستخدام الذكاء الاصطناعي."
+                    >
+
+                        <span class="quick-icon">✦</span>
+
+                        <div>
+
+                            <strong>ابتكر فكرة</strong>
+
+                            <small>مشروع جديد ومميز</small>
+
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        class="quick-card"
+                        data-prompt="اشرح لي الذكاء الاصطناعي بطريقة بسيطة جدًا ومفهومة."
+                    >
+
+                        <span class="quick-icon">◈</span>
+
+                        <div>
+
+                            <strong>اشرح لي</strong>
+
+                            <small>أي موضوع بسهولة</small>
+
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        class="quick-card"
+                        data-prompt="اكتب لي كود HTML وCSS لصفحة ويب عصرية جدًا."
+                    >
+
+                        <span class="quick-icon">&lt;/&gt;</span>
+
+                        <div>
+
+                            <strong>اكتب كود</strong>
+
+                            <small>برمجة ومشاريع</small>
+
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        class="quick-card"
+                        data-prompt="ساعدني في كتابة خطة احترافية لمشروع جديد."
+                    >
+
+                        <span class="quick-icon">⌁</span>
+
+                        <div>
+
+                            <strong>خطط معي</strong>
+
+                            <small>حوّل الفكرة إلى مشروع</small>
+
+                        </div>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================
+                 CHAT AREA
+            ================================== -->
+
+            <section
+                id="chatContainer"
+                class="chat-container"
+            >
+
+                <div
+                    id="messages"
+                    class="messages"
+                >
+
+                    <!-- الرسائل ستظهر هنا -->
+
+                </div>
+
+
+                <!-- THINKING -->
+
+                <div
+                    id="thinkingIndicator"
+                    class="thinking-indicator hidden"
+                >
+
+                    <div class="thinking-avatar">
+
+                        <span></span>
+
+                    </div>
+
+                    <div class="thinking-content">
+
+                        <span>Shaheen يفكر</span>
+
+                        <div class="thinking-dots">
+
+                            <i></i>
+                            <i></i>
+                            <i></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================
+                 INPUT AREA
+            ================================== -->
+
+            <div class="composer-wrapper">
+
+                <div class="composer-glow"></div>
+
+
+                <div class="composer">
+
+                    <button
+                        id="attachButton"
+                        class="composer-action"
+                        title="إرفاق ملف"
+                    >
+                        +
+                    </button>
+
+
+                    <textarea
+                        id="messageInput"
+                        rows="1"
+                        placeholder="اسأل Shaheen أي شيء..."
+                        autocomplete="off"
+                        spellcheck="true"
+                    ></textarea>
+
+
+                    <button
+                        id="sendButton"
+                        class="send-button"
+                        aria-label="إرسال"
+                    >
+
+                        <span class="send-arrow">↑</span>
+
+                    </button>
+
+                </div>
+
+
+                <div class="composer-footer">
+
+                    <span>
+
+                        Shaheen AI قد يخطئ أحيانًا.
+                        تحقق من المعلومات المهمة.
+
+                    </span>
+
+                    <span class="model-name">
+
+                        Gemini Engine
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================================
+         SETTINGS MODAL
+    ========================================== -->
+
+    <div
+        id="settingsModal"
+        class="modal hidden"
+    >
+
+        <div class="modal-backdrop"></div>
+
+
+        <div class="modal-box">
+
+            <button
+                id="closeSettings"
+                class="modal-close"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-header">
+
+                <div class="modal-logo">
+
+                    <span></span>
+
+                </div>
+
+                <div>
+
+                    <h2>إعدادات Shaheen</h2>
+
+                    <p>تحكم بتجربتك</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-list">
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>اللغة</strong>
+
+                        <small>لغة واجهة التطبيق</small>
+
+                    </div>
+
+                    <select id="languageSelect">
+
+                        <option value="ar">العربية</option>
+
+                        <option value="en">English</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>حفظ المحادثات</strong>
+
+                        <small>حفظ المحادثات على الجهاز</small>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="saveChats"
+                            checked
+                        >
+
+                        <span></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <span>SHAHEEN AI</span>
+
+                <span>v1.0</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         TOAST
+    ========================================== -->
+
+    <div
+        id="toast"
+        class="toast"
+    >
+        <span id="toastMessage"></span>
+    </div>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
