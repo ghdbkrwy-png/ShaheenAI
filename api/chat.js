@@ -24,7 +24,7 @@ export default async function handler(req, res) {
             });
         }
 
-        const model = "gemini-2.5-flash";
+        const model = "gemini-3.6-flash";
 
         const systemInstruction = `
 أنت Shaheen AI، مساعد ذكاء اصطناعي حديث واحترافي.
